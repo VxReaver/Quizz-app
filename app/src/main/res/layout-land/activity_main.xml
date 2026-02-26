@@ -36,7 +36,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent">
 
-            <!-- JUGAR -->
+            <!-- botones, jugar, opciones y puntuaciones -->
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/button_play"
                 android:layout_width="250dp"
@@ -48,7 +48,7 @@
                 android:layout_marginBottom="12dp" />
 
             <com.google.android.material.button.MaterialButton
-                android:id="@+id/btn_options"
+                android:id="@+id/button_options"
                 style="@style/Widget.MaterialComponents.Button.OutlinedButton"
                 android:layout_width="250dp"
                 android:layout_height="wrap_content"
