@@ -1,6 +1,92 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:fillViewport="true">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="24dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:text="Temas de la Trivia"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+        <!-- Checkboxes para los temas -->
+        <CheckBox
+            android:id="@+id/checkbox_music"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Música" />
+
+        <CheckBox
+            android:id="@+id/checkbox_sports"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Deportes" />
+
+        <CheckBox
+            android:id="@+id/checkbox_history"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Historia" />
+
+        <CheckBox
+            android:id="@+id/checkbox_generalKnowledge"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Cultura General" />
+
+        <CheckBox
+            android:id="@+id/checkbox_entertainment"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Entretenimiento" />
+
+        <!-- gaboputo -->
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:text="Número de Preguntas" />
+
+        <!-- Slider de preguntas (5 a 10) -->
+        <com.google.android.material.slider.Slider
+            android:id="@+id/slider_questions"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:stepSize="1.0"
+            android:value="5.0"
+            android:valueFrom="5.0"
+            android:valueTo="10.0" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:text="Dificultad" />
+
+        <!-- Spinner de dificultad -->
+        <Spinner
+            android:id="@+id/spinner_difficulty"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:layout_marginTop="8dp" />
+
+        <!-- Switch de pistaches -->
+        <com.google.android.material.materialswitch.MaterialSwitch
+            android:id="@+id/switch_hints"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:text="Pistas" />
+
+    </LinearLayout>
+</ScrollView>
