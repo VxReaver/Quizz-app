@@ -8,6 +8,10 @@ class GameViewModel : ViewModel() {
 
 	lateinit var gameManager: GameManager
 
+	fun isGameInitialized(): Boolean {
+		return ::gameManager.isInitialized
+	}
+
 	fun initGame(
 		allQuestions: List<Question>,
 		selectedTopics: List<String>,

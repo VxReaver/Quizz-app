@@ -18,10 +18,12 @@ class GameActivity : AppCompatActivity() {
         enableEdgeToEdge()
         setContentView(R.layout.activity_game)
 
-        if (!viewModel::gameManager.isInitialized) {
+        if (!viewModel.isGameInitialized()) {
+            val selectedTopics = intent.getStringArrayListExtra("TOPICS") ?: arrayListOf("Historia")
+
             viewModel.initGame(
                 QuestionRepository.getAll(),
-                intent.getStringArrayListExtra("TOPICS")!!,
+                selectedTopics,
                 intent.getIntExtra("NUM_QUESTIONS", 5),
                 intent.getIntExtra("DIFFICULTY", 4),
                 intent.getBooleanExtra("HINTS", true)
