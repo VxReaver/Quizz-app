@@ -38,6 +38,7 @@
             <!-- botones, jugar, opciones y puntuaciones -->
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/button_play"
+                style="@style/Widget.MaterialComponents.Button"
                 android:layout_width="250dp"
                 android:layout_height="wrap_content"
                 android:text="JUGAR"
@@ -47,7 +48,7 @@
                 android:layout_marginBottom="12dp" />
 
             <com.google.android.material.button.MaterialButton
-                android:id="@+id/btn_options"
+                android:id="@+id/button_options"
                 style="@style/Widget.MaterialComponents.Button.OutlinedButton"
                 android:layout_width="250dp"
                 android:layout_height="wrap_content"
@@ -59,6 +60,7 @@
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/button_leaderboard"
+                style="@style/Widget.MaterialComponents.Button"
                 android:layout_width="250dp"
                 android:layout_height="wrap_content"
                 android:text="PUNTUACIONES"
