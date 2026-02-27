@@ -1,3 +1,5 @@
+package com.example.quizz_app_basic.core
+
 data class QuestionState(
     val question: Question,
     var shuffledAnswers: List<String>,
