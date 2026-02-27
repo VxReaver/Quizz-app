@@ -1,21 +1,29 @@
 package com.example.quizz_app_basic.viewmodel
 
 import androidx.lifecycle.ViewModel
-import com.example.quizz_app_basic.model.Difficulty
-import com.example.quizz_app_basic.model.Question
+import com.example.quizz_app_basic.core.GameManager
+import com.example.quizz_app_basic.core.Question
 
 class GameViewModel : ViewModel() {
 
-    private var questions: List<Question> = emptyList()
+	lateinit var gameManager: GameManager
 
-    var currentQuestionIndex: Int = 0
-        private set
-
-    var score: Int = 0
-        private set
-
-    var remainingHints: Int = 3
-        private set
-
-    var difficulty: Difficulty = Difficulty.NORMAL
+	fun initGame(
+		allQuestions: List<Question>,
+		selectedTopics: List<String>,
+		numberOfQuestions: Int,
+		difficulty: Int,
+		hintsEnabled: Boolean
+	) {
+		if (!::gameManager.isInitialized) {
+			gameManager = GameManager(
+				allQuestions,
+				selectedTopics,
+				numberOfQuestions,
+				difficulty,
+				hintsEnabled
+			)
+			gameManager.startGame()
+		}
+	}
 }
