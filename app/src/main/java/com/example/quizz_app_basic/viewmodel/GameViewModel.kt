@@ -39,6 +39,22 @@ class GameViewModel : ViewModel() {
             )
             gameManager.startGame()
         }
+
+        val parsedDifficulty = when (difficulty) {
+            0 -> Difficulty.EASY
+            1 -> Difficulty.NORMAL
+            2 -> Difficulty.EASY
+            3 -> Difficulty.NORMAL
+            else -> Difficulty.HARD
+        }
+
+        initializeQuestions(
+            allQuestions = allQuestions,
+            selectedTopics = selectedTopics,
+            numberOfQuestions = numberOfQuestions,
+            selectedDifficulty = parsedDifficulty,
+            hintsEnabled = hintsEnabled
+        )
     }
 
     var score: Int = 0
@@ -60,53 +76,55 @@ class GameViewModel : ViewModel() {
     private val _questionCounter = MutableLiveData<String>()
     val questionCounter: LiveData<String> = _questionCounter
 
-    init {
-        loadMockQuestions()
-        loadCurrentQuestion()
-    }
+    fun initializeQuestions(
+        allQuestions: List<CoreQuestion>,
+        selectedTopics: List<String>,
+        numberOfQuestions: Int,
+        selectedDifficulty: Difficulty,
+        hintsEnabled: Boolean
+    ) {
+        difficulty = selectedDifficulty
+        remainingHints = if (hintsEnabled) 3 else 0
+        hintUsedInCurrentQuestion = false
+        score = 0
+        currentQuestionIndex = 0
 
-    private fun loadMockQuestions() {
-        questions = listOf(
-            GameQuestion(
-                UiQuestion(
-                    text = "¿Quién descubrió América?",
-                    correctAnswer = "Cristóbal Colón",
-                    incorrectAnswers = listOf("Napoleón", "Einstein", "Newton")
+        val filteredByTopic = if (selectedTopics.isEmpty()) {
+            allQuestions
+        } else {
+            allQuestions.filter { it.topic in selectedTopics }
+        }
+
+        val source = if (filteredByTopic.size >= numberOfQuestions) {
+            filteredByTopic
+        } else {
+            allQuestions
+        }
+
+        questions = source
+            .shuffled()
+            .take(numberOfQuestions.coerceAtLeast(1).coerceAtMost(source.size))
+            .map { coreQuestion ->
+                GameQuestion(
+                    UiQuestion(
+                        text = coreQuestion.questionText,
+                        correctAnswer = coreQuestion.correctAnswer,
+                        incorrectAnswers = coreQuestion.incorrectAnswers
+                    )
                 )
-            ),
-            GameQuestion(
-                UiQuestion(
-                    text = "¿Cuál es el planeta rojo?",
-                    correctAnswer = "Marte",
-                    incorrectAnswers = listOf("Venus", "Júpiter", "Saturno")
-                )
-            ),
-            GameQuestion(
-                UiQuestion(
-                    text = "¿Capital de Francia?",
-                    correctAnswer = "París",
-                    incorrectAnswers = listOf("Roma", "Madrid", "Berlín")
-                )
-            ),
-            GameQuestion(
-                UiQuestion(
-                    text = "¿Cuánto es 2 + 2?",
-                    correctAnswer = "4",
-                    incorrectAnswers = listOf("3", "5", "6")
-                )
-            ),
-            GameQuestion(
-                UiQuestion(
-                    text = "¿Quién pintó la Mona Lisa?",
-                    correctAnswer = "Leonardo da Vinci",
-                    incorrectAnswers = listOf("Picasso", "Van Gogh", "Dalí")
-                )
-            )
-        )
+            }
+
+        loadCurrentQuestion()
     }
 
 
     private fun loadCurrentQuestion() {
+        if (questions.isEmpty()) {
+            _currentQuestion.value = null
+            _questionCounter.value = "Pregunta 0/0"
+            return
+        }
+
         if (questions.isNotEmpty()) {
             val gq = questions[currentQuestionIndex]
 

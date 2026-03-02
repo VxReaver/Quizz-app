@@ -8,9 +8,10 @@ import android.widget.Toast
 import androidx.activity.addCallback
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
+import com.example.quizz_app_basic.core.QuestionRepository
 import com.example.quizz_app_basic.databinding.ActivityGameBinding
+import com.example.quizz_app_basic.model.Difficulty
 import com.example.quizz_app_basic.model.GameQuestion
-import com.example.quizz_app_basic.model.Question
 import com.example.quizz_app_basic.viewmodel.GameViewModel
 
 class GameActivity : AppCompatActivity() {
@@ -28,7 +29,24 @@ class GameActivity : AppCompatActivity() {
 
         viewModel = ViewModelProvider(this)[GameViewModel::class.java]
 
-        loadMockQuestion()
+        if (viewModel.getCurrentQuestion() == null) {
+            val selectedTopics = intent.getStringArrayListExtra("TOPICS")?.toList().orEmpty()
+            val difficultyPosition = intent.getIntExtra("DIFFICULTY_POSITION", 1)
+            val selectedDifficulty = when (difficultyPosition) {
+                0 -> Difficulty.EASY
+                2 -> Difficulty.HARD
+                else -> Difficulty.NORMAL
+            }
+
+            viewModel.initializeQuestions(
+                allQuestions = QuestionRepository.getAll(),
+                selectedTopics = selectedTopics,
+                numberOfQuestions = intent.getIntExtra("NUM_QUESTIONS", 5),
+                selectedDifficulty = selectedDifficulty,
+                hintsEnabled = intent.getBooleanExtra("HINTS", true)
+            )
+        }
+
         setupListeners()
 
         viewModel.currentQuestion.observe(this) { gameQuestion ->
@@ -86,16 +104,6 @@ class GameActivity : AppCompatActivity() {
         binding.btnOption2.isEnabled = true
         binding.btnOption3.isEnabled = true
         binding.btnOption4.isEnabled = true
-    }
-
-    private fun loadMockQuestion() {
-        val question = Question(
-            text = "¿Quién descubrió América?",
-            correctAnswer = "Cristóbal Colón",
-            incorrectAnswers = listOf("Napoleón", "Einstein", "Newton")
-        )
-
-        showQuestion(GameQuestion(question))
     }
 
     private fun showQuestion(gameQuestion: GameQuestion) {

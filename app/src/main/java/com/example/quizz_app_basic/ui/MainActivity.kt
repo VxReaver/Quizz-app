@@ -1,5 +1,6 @@
 package com.example.quizz_app_basic.ui
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import androidx.activity.viewModels
@@ -22,7 +23,16 @@ class MainActivity : AppCompatActivity() {
         btnLeaderboard.isEnabled = false
 
         btnPlay.setOnClickListener {
+            val prefs = getSharedPreferences(OptionsActivity.PREFS_NAME, Context.MODE_PRIVATE)
+            val savedTopics = prefs.getStringSet(OptionsActivity.KEY_TOPICS, emptySet())
+                .orEmpty()
+                .toCollection(ArrayList())
+
             val intent = Intent(this, GameActivity::class.java)
+            intent.putStringArrayListExtra("TOPICS", savedTopics)
+            intent.putExtra("NUM_QUESTIONS", prefs.getInt(OptionsActivity.KEY_NUM_QUESTIONS, 5))
+            intent.putExtra("DIFFICULTY_POSITION", prefs.getInt(OptionsActivity.KEY_DIFFICULTY_POSITION, 1))
+            intent.putExtra("HINTS", prefs.getBoolean(OptionsActivity.KEY_HINTS_ENABLED, true))
             startActivity(intent)
         }
 
