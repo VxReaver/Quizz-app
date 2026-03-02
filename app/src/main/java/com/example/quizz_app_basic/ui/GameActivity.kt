@@ -1,5 +1,6 @@
 package com.example.quizz_app_basic.ui
 
+import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -8,6 +9,7 @@ import android.widget.Toast
 import androidx.activity.addCallback
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
+import com.example.quizz_app_basic.ResultActivity
 import com.example.quizz_app_basic.core.QuestionRepository
 import com.example.quizz_app_basic.databinding.ActivityGameBinding
 import com.example.quizz_app_basic.model.Difficulty
@@ -54,6 +56,7 @@ class GameActivity : AppCompatActivity() {
                 showQuestion(it)
                 enableButtons()
                 resetButtonColors()
+                updateNavigationButtons()
             }
         }
 
@@ -148,8 +151,34 @@ class GameActivity : AppCompatActivity() {
         binding.btnOption4.setOnClickListener { checkAnswer(binding.btnOption4.text.toString()) }
 
         binding.btnNext.setOnClickListener {
-            viewModel.nextQuestion()
+            if (viewModel.isLastQuestion()) {
+                if (viewModel.allQuestionsAnswered()) {
+                    navigateToResults()
+                } else {
+                    Toast.makeText(this, "Debes contestar todas las preguntas", Toast.LENGTH_SHORT).show()
+                }
+            } else {
+                viewModel.nextQuestion()
+            }
         }
+    }
+
+    private fun updateNavigationButtons() {
+        if (viewModel.isLastQuestion()) {
+            binding.btnNext.text = "Finalizar"
+        } else {
+            binding.btnNext.text = "Siguiente"
+        }
+    }
+
+    private fun navigateToResults() {
+        val intent = Intent(this, ResultActivity::class.java).apply {
+            putExtra("SCORE", viewModel.calculateFinalScore())
+            putExtra("HINTS_USED", viewModel.getHintsUsedTotal())
+            putExtra("TOTAL_QUESTIONS", intent.getIntExtra("NUM_QUESTIONS", 5))
+        }
+        startActivity(intent)
+        finish()
     }
 
     private fun checkAnswer(selectedAnswer: String) {

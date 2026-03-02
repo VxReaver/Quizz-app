@@ -193,4 +193,37 @@ class GameViewModel : ViewModel() {
             loadCurrentQuestion()
         }
     }
+
+    fun isLastQuestion(): Boolean = currentQuestionIndex == questions.size - 1
+
+    fun allQuestionsAnswered(): Boolean = questions.all { it.selectedAnswer != null }
+
+    fun calculateFinalScore(): Int {
+        var total = 0
+        val pointsPerCorrect = when (difficulty) {
+            Difficulty.EASY -> 10
+            Difficulty.NORMAL -> 15
+            Difficulty.HARD -> 20
+        }
+
+        var totalHintsUsed = 0
+        questions.forEach { q ->
+            if (q.isCorrect == true) {
+                total += pointsPerCorrect
+            }
+            if (q.hintUsed) totalHintsUsed++
+        }
+
+        // Penalización por pistas usadas
+        total -= (totalHintsUsed * 2)
+
+        // Bonificación por pistas no utilizadas (de las 3 iniciales)
+        total += (remainingHints * 5)
+
+        return total.coerceAtLeast(0)
+    }
+
+    fun getHintsUsedTotal(): Int {
+        return questions.count { it.hintUsed }
+    }
 }
