@@ -9,6 +9,15 @@
     tools:context=".ui.GameActivity"
     android:padding="16dp">
 
+    <ImageView
+        android:id="@+id/background_image"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="centerCrop"
+        android:src="@drawable/fondo_default"
+        app:layout_constraintEnd_toEndOf="parent"
+        tools:layout_editor_absoluteY="16dp" />
+
     <TextView
         android:id="@+id/tvQuestion"
         android:layout_width="0dp"
