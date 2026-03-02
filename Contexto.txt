@@ -1,0 +1,67 @@
+Nos dividimos la tarea entre 3 personas Yo soy Victor y quiero checar que tenga todo completado de mi parte 
+
+
+Chano:
+Persona 2 – UI Base y Navegación
+
+Responsable de:
+
+Activity 1 (Inicio)
+
+Activity 2 (Opciones)
+
+Layouts vertical y horizontal
+
+Spinner
+
+Slider
+
+Checkboxes
+
+Switch
+
+Navegación entre activities
+
+------------------
+Victor:
+Persona 1 – Lógica del juego (Core)
+
+Responsable de:
+
+Clase Question
+
+Clase GameManager
+
+Sistema de:
+
+Selección aleatoria
+
+Dificultad (2, 3, 4 respuestas)
+
+Pistas
+
+Bonificación por 2 correctas seguidas
+
+Penalización
+
+Cálculo de puntuación
+------------------
+
+Gabo:
+Persona 3 – Activity de Juego + Estado
+
+Responsable de:
+
+Activity 3 (Juego)
+
+Activity 4 (Fin)
+
+Mostrar preguntas
+
+Marcar correctas/incorrectas
+
+Bloquear pregunta después de responder
+
+Confirmación doble back
+
+Implementar ViewModel / onSaveInstanceState
