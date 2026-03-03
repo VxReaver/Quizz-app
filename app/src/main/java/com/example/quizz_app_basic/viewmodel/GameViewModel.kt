@@ -43,8 +43,6 @@ class GameViewModel : ViewModel() {
         val parsedDifficulty = when (difficulty) {
             0 -> Difficulty.EASY
             1 -> Difficulty.NORMAL
-            2 -> Difficulty.EASY
-            3 -> Difficulty.NORMAL
             else -> Difficulty.HARD
         }
 
@@ -109,7 +107,8 @@ class GameViewModel : ViewModel() {
                     UiQuestion(
                         text = coreQuestion.questionText,
                         correctAnswer = coreQuestion.correctAnswer,
-                        incorrectAnswers = coreQuestion.incorrectAnswers
+                        incorrectAnswers = coreQuestion.incorrectAnswers,
+                        topic = coreQuestion.topic // Pasamos el tema
                     )
                 )
             }
