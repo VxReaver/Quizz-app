@@ -16,7 +16,6 @@ import java.util.ArrayList // Import explícito para evitar fallo 3
 
 class OptionsActivity : AppCompatActivity() {
 
-    // Requiere la dependencia activity-ktx en build.gradle
     private val viewModel: OptionsViewModel by viewModels()
 
     companion object {
@@ -33,7 +32,6 @@ class OptionsActivity : AppCompatActivity() {
 
         loadFromPreferences()
 
-        // Recuperación segura del estado (Fallo 4 corregido)
         savedInstanceState?.let { bundle ->
             viewModel.questionCount = bundle.getFloat("SLIDER_VALUE", 5f)
             viewModel.isHintsEnabled = bundle.getBoolean("SWITCH_VALUE", false)
@@ -47,7 +45,6 @@ class OptionsActivity : AppCompatActivity() {
 
         setupDifficultySpinner()
 
-        // Sincronización segura (Fallo 5 corregido con post para el Slider)
         syncViewWithViewModel()
         setupListeners()
     }
@@ -90,7 +87,6 @@ class OptionsActivity : AppCompatActivity() {
 
     private fun syncViewWithViewModel() {
         val slider = findViewById<Slider>(R.id.slider_questions)
-        // Usamos post para asegurar que el slider ya conoce su rango (valueFrom/To)
         slider.post {
             slider.value = viewModel.questionCount.coerceIn(slider.valueFrom, slider.valueTo)
         }

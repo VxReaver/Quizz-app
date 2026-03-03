@@ -9,6 +9,7 @@ import android.widget.Toast
 import androidx.activity.addCallback
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
+import com.example.quizz_app_basic.R
 import com.example.quizz_app_basic.ResultActivity
 import com.example.quizz_app_basic.core.QuestionRepository
 import com.example.quizz_app_basic.databinding.ActivityGameBinding
@@ -31,8 +32,9 @@ class GameActivity : AppCompatActivity() {
 
         viewModel = ViewModelProvider(this)[GameViewModel::class.java]
 
+        val selectedTopics = intent.getStringArrayListExtra("TOPICS")?.toList().orEmpty()
+
         if (viewModel.getCurrentQuestion() == null) {
-            val selectedTopics = intent.getStringArrayListExtra("TOPICS")?.toList().orEmpty()
             val difficultyPosition = intent.getIntExtra("DIFFICULTY_POSITION", 1)
             val selectedDifficulty = when (difficultyPosition) {
                 0 -> Difficulty.EASY
@@ -53,6 +55,8 @@ class GameActivity : AppCompatActivity() {
 
         viewModel.currentQuestion.observe(this) { gameQuestion ->
             gameQuestion?.let {
+                // Actualiza el fondo dependiendo del tema de la pregunta actual
+                updateBackgroundForQuestion(it)
                 showQuestion(it)
                 enableButtons()
                 resetButtonColors()
@@ -100,6 +104,21 @@ class GameActivity : AppCompatActivity() {
         }
 
         updateHintsUI()
+    }
+
+    private fun updateBackgroundForQuestion(gameQuestion: GameQuestion) {
+        val originalQuestion = QuestionRepository.getAll().find { it.questionText == gameQuestion.question.text }
+        val topic = originalQuestion?.topic
+
+        val backgroundRes = when (topic) {
+            "Historia" -> R.drawable.fondo_historia
+            "Música" -> R.drawable.fondo_musica
+            "Deportes" -> R.drawable.fondo_deportes
+            "Cultura General" -> R.drawable.fondo_culturageneral
+            "Entretenimiento" -> R.drawable.fondo_entretenimiento
+            else -> R.drawable.fondo_default
+        }
+        binding.backgroundImage?.setImageResource(backgroundRes)
     }
 
     private fun enableButtons() {
