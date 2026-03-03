@@ -1,126 +1,170 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/main"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:fillViewport="true">
+    android:layout_height="match_parent">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <ImageView
+        android:id="@+id/background_options"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="16dp">
+        android:layout_height="match_parent"
+        android:scaleType="centerCrop"
+        android:src="@drawable/fondo_default" />
 
-        <TextView
-            android:id="@+id/tv_themes_title"
-            android:layout_width="wrap_content"
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Temas de la Trivia"
-            android:textSize="18sp"
-            android:textStyle="bold"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            android:padding="16dp">
 
-        <GridLayout
-            android:id="@+id/grid_themes"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:columnCount="2"
-            app:layout_constraintEnd_toStartOf="@+id/guideline_vertical"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tv_themes_title">
-
-            <CheckBox
-                android:id="@+id/checkbox_music"
+            <TextView
+                android:id="@+id/tv_themes_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Música" />
+                android:text="Temas de la Trivia"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:textColor="@android:color/white"
+                android:background="@drawable/rounded_black_bg"
+                android:padding="6dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
-            <CheckBox
-                android:id="@+id/checkbox_sports"
+            <GridLayout
+                android:id="@+id/grid_themes"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:columnCount="2"
+                app:layout_constraintEnd_toStartOf="@+id/guideline_vertical"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tv_themes_title">
+
+                <CheckBox
+                    android:id="@+id/checkbox_music"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Música"
+                    android:textColor="@android:color/white"
+                    android:background="@drawable/rounded_black_bg"
+                    android:padding="4dp"
+                    android:layout_margin="2dp" />
+
+                <CheckBox
+                    android:id="@+id/checkbox_sports"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Deportes"
+                    android:textColor="@android:color/white"
+                    android:background="@drawable/rounded_black_bg"
+                    android:padding="4dp"
+                    android:layout_margin="2dp" />
+
+                <CheckBox
+                    android:id="@+id/checkbox_history"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Historia"
+                    android:textColor="@android:color/white"
+                    android:background="@drawable/rounded_black_bg"
+                    android:padding="4dp"
+                    android:layout_margin="2dp" />
+
+                <CheckBox
+                    android:id="@+id/checkbox_generalKnowledge"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Cultura General"
+                    android:textColor="@android:color/white"
+                    android:background="@drawable/rounded_black_bg"
+                    android:padding="4dp"
+                    android:layout_margin="2dp" />
+
+                <CheckBox
+                    android:id="@+id/checkbox_entertainment"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Entretenimiento"
+                    android:textColor="@android:color/white"
+                    android:background="@drawable/rounded_black_bg"
+                    android:padding="4dp"
+                    android:layout_margin="2dp" />
+            </GridLayout>
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guideline_vertical"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Deportes" />
+                android:orientation="vertical"
+                app:layout_constraintGuide_percent="0.5" />
 
-            <CheckBox
-                android:id="@+id/checkbox_history"
+            <TextView
+                android:id="@+id/tv_num_questions"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Historia" />
+                android:layout_marginStart="16dp"
+                android:text="Número de Preguntas"
+                android:textColor="@android:color/white"
+                android:background="@drawable/rounded_black_bg"
+                android:padding="4dp"
+                app:layout_constraintStart_toEndOf="@+id/guideline_vertical"
+                app:layout_constraintTop_toTopOf="parent" />
 
-            <CheckBox
-                android:id="@+id/checkbox_generalKnowledge"
+            <com.google.android.material.slider.Slider
+                android:id="@+id/slider_questions"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:stepSize="1.0"
+                android:value="5.0"
+                android:valueFrom="5.0"
+                android:valueTo="10.0"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/guideline_vertical"
+                app:layout_constraintTop_toBottomOf="@+id/tv_num_questions" />
+
+            <TextView
+                android:id="@+id/tv_difficulty"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Cultura General" />
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="8dp"
+                android:text="Dificultad"
+                android:textColor="@android:color/white"
+                android:background="@drawable/rounded_black_bg"
+                android:padding="4dp"
+                app:layout_constraintStart_toEndOf="@+id/guideline_vertical"
+                app:layout_constraintTop_toBottomOf="@+id/slider_questions" />
 
-            <CheckBox
-                android:id="@+id/checkbox_entertainment"
-                android:layout_width="wrap_content"
+            <Spinner
+                android:id="@+id/spinner_difficulty"
+                android:layout_width="0dp"
+                android:layout_height="48dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="4dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/guideline_vertical"
+                app:layout_constraintTop_toBottomOf="@+id/tv_difficulty" />
+
+            <com.google.android.material.materialswitch.MaterialSwitch
+                android:id="@+id/switch_hints"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text="Entretenimiento" />
-        </GridLayout>
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="8dp"
+                android:text="Pistas"
+                android:textColor="@android:color/white"
+                android:background="@drawable/rounded_black_bg"
+                android:padding="8dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/guideline_vertical"
+                app:layout_constraintTop_toBottomOf="@+id/spinner_difficulty" />
 
-        <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/guideline_vertical"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            app:layout_constraintGuide_percent="0.5" />
-
-        <TextView
-            android:id="@+id/tv_num_questions"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:text="Número de Preguntas"
-            app:layout_constraintStart_toEndOf="@+id/guideline_vertical"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <com.google.android.material.slider.Slider
-            android:id="@+id/slider_questions"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:stepSize="1.0"
-            android:value="5.0"
-            android:valueFrom="5.0"
-            android:valueTo="10.0"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/guideline_vertical"
-            app:layout_constraintTop_toBottomOf="@+id/tv_num_questions" />
-
-        <TextView
-            android:id="@+id/tv_difficulty"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="8dp"
-            android:text="Dificultad"
-            app:layout_constraintStart_toEndOf="@+id/guideline_vertical"
-            app:layout_constraintTop_toBottomOf="@+id/slider_questions" />
-
-        <Spinner
-            android:id="@+id/spinner_difficulty"
-            android:layout_width="0dp"
-            android:layout_height="48dp"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="4dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/guideline_vertical"
-            app:layout_constraintTop_toBottomOf="@+id/tv_difficulty" />
-
-        <com.google.android.material.materialswitch.MaterialSwitch
-            android:id="@+id/switch_hints"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="8dp"
-            android:text="Pistas"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/guideline_vertical"
-            app:layout_constraintTop_toBottomOf="@+id/spinner_difficulty" />
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
-</ScrollView>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -43,6 +43,8 @@ class GameViewModel : ViewModel() {
         val parsedDifficulty = when (difficulty) {
             0 -> Difficulty.EASY
             1 -> Difficulty.NORMAL
+            2 -> Difficulty.EASY
+            3 -> Difficulty.NORMAL
             else -> Difficulty.HARD
         }
 
@@ -87,13 +89,15 @@ class GameViewModel : ViewModel() {
         score = 0
         currentQuestionIndex = 0
 
+        // FILTRADO CORRECTO POR TEMAS
         val filteredByTopic = if (selectedTopics.isEmpty()) {
             allQuestions
         } else {
             allQuestions.filter { it.topic in selectedTopics }
         }
 
-        val source = if (filteredByTopic.size >= numberOfQuestions) {
+        // Si no hay preguntas para los temas seleccionados (por seguridad), usamos todas
+        val source = if (filteredByTopic.isNotEmpty()) {
             filteredByTopic
         } else {
             allQuestions
@@ -108,7 +112,7 @@ class GameViewModel : ViewModel() {
                         text = coreQuestion.questionText,
                         correctAnswer = coreQuestion.correctAnswer,
                         incorrectAnswers = coreQuestion.incorrectAnswers,
-                        topic = coreQuestion.topic // Pasamos el tema
+                        topic = coreQuestion.topic // PASAR EL TEMA
                     )
                 )
             }

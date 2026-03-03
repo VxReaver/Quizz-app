@@ -6,13 +6,14 @@ import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.CheckBox
+import android.widget.ImageView
 import android.widget.Spinner
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import com.example.quizz_app_basic.R
 import com.google.android.material.slider.Slider
 import com.google.android.material.materialswitch.MaterialSwitch
-import java.util.ArrayList // Import explícito para evitar fallo 3
+import java.util.ArrayList
 
 class OptionsActivity : AppCompatActivity() {
 
@@ -44,9 +45,9 @@ class OptionsActivity : AppCompatActivity() {
         }
 
         setupDifficultySpinner()
-
         syncViewWithViewModel()
         setupListeners()
+        updateBackground()
     }
 
     private fun setupDifficultySpinner() {
@@ -81,8 +82,27 @@ class OptionsActivity : AppCompatActivity() {
                 if (isChecked) viewModel.selectedThemes.add(id)
                 else viewModel.selectedThemes.remove(id)
                 saveToPreferences()
+                updateBackground()
             }
         }
+    }
+
+    private fun updateBackground() {
+        val ivBackground = findViewById<ImageView>(R.id.background_options) ?: return
+        
+        // Si hay varios seleccionados, priorizamos el último añadido o el primero de la lista
+        val lastSelectedId = viewModel.selectedThemes.lastOrNull()
+        
+        val backgroundRes = when (lastSelectedId) {
+            R.id.checkbox_music -> R.drawable.fondo_musica
+            R.id.checkbox_sports -> R.drawable.fondo_deportes
+            R.id.checkbox_history -> R.drawable.fondo_historia
+            R.id.checkbox_generalKnowledge -> R.drawable.fondo_culturageneral
+            R.id.checkbox_entertainment -> R.drawable.fondo_entretenimiento
+            else -> R.drawable.fondo_default
+        }
+        
+        ivBackground.setImageResource(backgroundRes)
     }
 
     private fun syncViewWithViewModel() {
@@ -112,7 +132,6 @@ class OptionsActivity : AppCompatActivity() {
         outState.putFloat("SLIDER_VALUE", viewModel.questionCount)
         outState.putBoolean("SWITCH_VALUE", viewModel.isHintsEnabled)
         outState.putInt("SPINNER_POS", viewModel.difficultyPosition)
-        // Fallo 3 corregido: Uso de java.util.ArrayList explícito
         outState.putIntegerArrayList("THEMES_LIST", ArrayList(viewModel.selectedThemes.toList()))
     }
 
@@ -130,10 +149,6 @@ class OptionsActivity : AppCompatActivity() {
 
         val storedTopics = prefs.getStringSet(KEY_TOPICS, emptySet()).orEmpty()
         viewModel.selectedThemes.clear()
-
-        if (storedTopics.isEmpty()) {
-            return
-        }
 
         getCheckboxIds().forEach { id ->
             if (getTopicFromCheckboxId(id) in storedTopics) {
